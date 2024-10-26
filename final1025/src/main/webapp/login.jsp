@@ -10,12 +10,7 @@
 
 <meta charset="UTF-8">
 <title>로그인</title>
-<style>
-.hidden-label {
-	display: none; /* 요소를 화면에서 숨김 */
-}
-</style>
-<!-- 회원관련 컨테이너 및 모달 스타일 -->
+
 </head>
 <body>
 	<custom:header />
@@ -36,7 +31,7 @@
 			</div>
 
 			<!-- 로그인 폼태그 -->
-			<form id="loginForm" action="login.do" method="POST">
+			<form id="login" action="login.do" method="POST">
 				<div class="col" style="text-align: left;">
 					<div class="input-container">
 
@@ -107,7 +102,7 @@
 		<!-- 모달 다이얼로그 -->
 		<div class="modal-dialog">
 			<div class="modal-content">
-				<form id="findPWForm" method="POST">
+				<form action="findPW.do" id="findPW" method="POST">
 					<span class="close" id="close"
 						style="text-align: right; cursor: pointer; margin: 10px; padding-right: 10px;">&times;</span>
 					<!-- 비밀번호 찾기 안내 -->
@@ -178,8 +173,8 @@
 					<br>
 					<!-- 인증번호가 일치할 경우, 비밀번호 재설정 버튼 open / 인증번호 빈칸 혹은 입력값 틀렸다면 hidden처리 -->
 					<div class="d-grid gap-2 text-center">
-						<button type="button" class="btn btn-dark" id="findPw"
-							name="findPw" data-bs-target="#setPwModal" data-bs-toggle="modal">비밀번호
+						<button type="button" class="btn btn-dark" id="resetPw"
+							name="resetPw" data-bs-target="#setPwModal" data-bs-toggle="modal">비밀번호
 							재설정하러 가기</button>
 					</div>
 					<div class="text-center mt-3">
@@ -227,7 +222,7 @@
 						</div>
 						<div class="d-grid gap-2 text-center">
 							<button type="button" class="btn btn-dark" id="setPW">비밀번호
-								재설정하러 가기</button>
+								재설정 완료</button>
 						</div>
 					</div>
 				</form>
