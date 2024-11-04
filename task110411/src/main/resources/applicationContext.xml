@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans
+                  http://www.springframework.org/schema/beans/spring-beans.xsd
+                  http://www.springframework.org/schema/context
+                  http://www.springframework.org/schema/context/spring-context-4.2.xsd
+                  http://www.springframework.org/schema/aop
+                  http://www.springframework.org/schema/aop/spring-aop-4.2.xsd
+                  http://www.springframework.org/schema/tx
+                  http://www.springframework.org/schema/tx/spring-tx-4.2.xsd">
+
+<!-- 컨테이너 객체 생성 -->
+	<context:component-scan
+		base-package="com.koreait.app.biz.board" />
+		<context:component-scan
+		base-package="com.koreait.app.biz.image" />
+		<context:component-scan
+		base-package="com.koreait.app.biz.common" />
+		<context:component-scan
+		base-package="com.koreait.app.biz.member" />
+		
+<bean class="org.apache.commons.dbcp.BasicDataSource" id="ds" destroy-method="close">
+  <property name="driverName" value="com.mysql.cj.jdbc.Driver" />
+  <property name="url" value="jdbc:mysql://localhost:3306/kim" />
+  <property name="username" value="root" />
+  <property name="password" value="1234" />
+</bean>
+<bean class="org.springframework.jdbc.JdbcTemplate" id="jdbcTemplate">
+  <property name="dataSource" ref="ds"/><!-- //dataSource ==> Spring 내의 객체명. 변경 불가  -->
+</bean>
+
+<!-- log Advice -->
+	<bean class="com.koreait.app.biz.common.BoardInsertAdvice"
+		id="insertBoardLog" />
+
+<!-- AOP 주입 -->
+	<aop:aspectj-autoproxy></aop:aspectj-autoproxy>
+
+<!-- Mybatis 주입 -->
+	<bean id="sqlSession"
+		class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="ds" />
+		<property name="configLocation"
+			value="classpath:sql-map-config.xml" />
+	</bean>
+	<bean id="mybatis" class="org.mybatis.spring.SqlSessionTemplate">
+		<constructor-arg ref="sqlSession" />
+	</bean>
+</beans>
+<!-- 34번~36번 xml 데이터만 필요함. 
+	하지만 해당 코드에는 ref, 즉 sqlSession을 참조하고 있음.
+	따라서 sqlSession이 필요한 실정.
+	이는 28~32번 라인임. 컨테이너 통해서 팩토리 bean(객체) 꺼내고자 하니,
+	ds(dispatcher suvelete)가 필요해짐.-->
+
+
+<!-- <aop:config> <aop:pointcut expression="execution(* com.koreait.app.biz.board..*BoardServiceImpl.insert*(..))" 
+	id="boardInsertLog" /> <aop:aspect ref="insertBoardLog"> <aop:after method="printLog" 
+	pointcut-ref="boardInsertLog" /> </aop:aspect> </aop:config> -->
+
+<!-- <bean class="org.springframework.jdbc.datasource.DataSourceTransactionManager" 
+	id="txManager"> <property name="dataSource" ref="ds" /> </bean> <tx:advice 
+	transaction-manager="txManager" id="txAdvice"> <tx:attributes> <tx:method 
+	name="insert" /> <tx:method name="*" /> </tx:attributes> </tx:advice> <aop:config> 
+	<aop:pointcut expression="excution(* com.koreait.app.biz..*Impl.*(..))" id="txPointcut" 
+	/> <aop:advisor advice-ref="txAdvice" pointcut-ref="txPointcut" /> </aop:config> -->

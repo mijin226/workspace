@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="MemberDAO">
+<!-- namespace.아이디명 -->
+<!-- 
+	private final String SELECTONE_DOUBLEMID = 
+	"SELECT MID FROM MEMBER WHERE MID=?"; 
+	
+	private final String SELECTONE_LOGIN = 
+	"SELECT MID FROM MEMBER WHERE MID=? AND PASSWORD=?"; 
+	
+	private final String INSERT = 
+	"INSERT INTO MEMBER(MID,PASSWORD, NAME) VALUES (?, ?, ?);"; 
+-->
+
+	 <insert id="MEMBER_INSERT">
+	 	INSERT INTO MEMBER(MID, PASSWORD, NAME) VALUES (#{MID}, #{PASSWORD}, #{NAME})
+	 </insert>
+
+    <select id="SELECTONE_DOUBLEMID" resultType="member"> <!-- 경로를 올바르게 수정 -->
+        SELECT MID FROM MEMBER WHERE MID=#{MID}
+    </select>
+
+    <select id="SELECTONE_LOGIN" resultType="member"> <!-- 경로를 올바르게 수정 -->
+        SELECT MID FROM MEMBER WHERE MID=#{MID}
+    </select>
+</mapper>

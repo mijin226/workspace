@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ImageDAO">
+<!-- namespace.아이디명 -->
+<!-- 
+	/*
+	 * private final String INSERT = 
+	 "INSERT INTO IMAGE(PATH, BID) VALUES (?, (SELECT MAX(BID) FROM BOARD))
+	 private final String SELECTONE = 
+	 "SELECT PATH FROM IMAGE WHERE BID=?";
+	 */-->
+
+	 <insert id="IMAGE_INSERT">
+	 	INSERT INTO IMAGE(PATH, BID) VALUES (#{PATH}, (SELECT MAX(BID) FROM BOARD))
+	 </insert>
+
+    <select id="IMAGE_SELECTONE" resultType="image"> <!-- 경로를 올바르게 수정 -->
+        SELECT PATH FROM IMAGE WHERE BID=#{BID}
+    </select>
+</mapper>

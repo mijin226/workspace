@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="BoardDAO"><!-- namespace.아이디명 -->
+	<!-- id : 기존의 변수명 resultType : config.xml 파일에서 설정한 별칭(alias) -->
+	<!-- // 게시물 등록 : 인풋값(내용,작성자)으로 게시물 등록 
+		private final String INSERT = "INSERT INTO BOARD (CONTENT,WRITER) VALUES(?,?)"; 
+		
+		// 전체조회 : 고유번호 내용 작성자 조회 
+		private final String SELECTALL = "SELECT BID, CONTENT,WRITER FROM BOARD"; 
+		
+		// 내용 검색 : ?내용이면 내용 모두 조회 
+		private final String SELECTALL_CONTENT = "SELECT CONTENT, WRITER FROM BOARD WHERE CONTENT LIKE ?"; 
+		
+		// 작성자 검색 : ? 작성자이면 작성자 모두 조회 
+		private final String SELECTALL_WRITER = "SELECT CONTENT, WRITER FROM BOARD WHERE WRITER LIKE ?"; 
+		
+		// 상세조회 : 인풋값(내용, 작성자)일 때 고유번호, 내용, 작성자 조회 
+		private final String SELECTONE_ALL = "SELECT BID, CONTENT, WRITER FROM BOARD WHERE BID=?"; 
+		
+		// max 게시글 고유번호 찾기 
+		private final String SELECTONE_MAX = "SELECT MAX(BID) AS BID FROM BOARD"; -->
+
+	<!-- 기존 DAO에서 ?로 기재했던 건, #{}으로 표현 -->
+	
+	
+	<!-- 게시물 등록 : 인풋값(내용,작성자)으로 게시물 등록 -->
+	<insert id="BOARD_INSERT">
+		INSERT INTO BOARD (CONTENT,WRITER) VALUES(#{CONTENT}, #{WRITER})
+	</insert>
+	
+	<!-- 전체조회 : 고유번호 내용 작성자 조회 -->
+	<select id="SELECTALL" resultType="board">
+		SELECT BID, CONTENT,WRITER FROM BOARD
+	</select>
+	
+	<!-- 내용 검색 : ?내용이면 내용 모두 조회 -->
+	<select id="SELECTALL_CONTENT" resultType="board">
+		<!-- SELECT CONTENT, WRITER FROM BOARD WHERE CONTENT LIKE ? -->
+   		SELECT CONTENT, WRITER FROM BOARD WHERE CONTENT LIKE CONCAT('%', #{keyword}, '%')
+	</select>
+
+	<!-- 작성자 검색 : ? 작성자이면 작성자 모두 조회 -->
+	<select id="SELECTALL_WRITER" resultType="board">
+		<!-- SELECT CONTENT, WRITER FROM BOARD WHERE WRITER LIKE ? -->
+		SELECT CONTENT, WRITER FROM BOARD WHERE WRITER LIKE CONCAT('%', #{keyword}, '%')
+	</select>
+	
+	<!-- 상세조회 : 인풋값(내용, 작성자)일 때 고유번호, 내용, 작성자 조회 -->
+	<select id="SELECTONE_ALL" resultType="board">
+		SELECT BID, CONTENT, WRITER FROM BOARD WHERE BID=#{BID}
+	</select>
+	
+	<!-- max 게시글 고유번호 찾기 -->
+	<select id="SELECTONE_MAX" resultType="board">
+	SELECT MAX(BID) AS BID FROM BOARD
+	</select>
+	
+	<update id="UPDATE"></update>
+	<delete id="DELETE"></delete>
+</mapper>
