@@ -1,0 +1,41 @@
+//1(최하품)~k(최상품) 점수 분포
+//한 상자 내 m개 존재
+//상자 내 최하품 점수p => 상자 가격 = p*m
+//상자 m 개 나머지는 버림
+//배열 최대~최소로 나열
+//m 값에 따라 인덱스 나누기
+//나눈 인덱스 범위 내에서 최솟값 기준 *m 진행
+//ex. m=4 => 3 3 2 2 1 1 1 => 3322 => 인덱스 m-1, 2*m-1 ... 순의 값*m => score[3]=2 =>2*4=8
+//ex. m=3 => 4 4 4 4 4 4 2 2 2 2 1 1 => 444 444 222 211 => score[2]=4/score[5]=4/score[8]=2/score[11]=1
+//=> 4*3+4*3+2*3+1*3 = 3(4+4+2+1)=33
+
+//1. 배열 최대값 순으로 인덱스 0부터 나열
+//2. m-1, 2*m-1..순의 값 구하기(score.length 까지)
+//3. 2번에서 나온 값 모두 더하기
+//4. 3번의 더한 값 * m 진행
+//+ 이익이 발생하지 않는 경우 => 배열 크기 < m 일 때
+
+class Solution {
+    public int solution(int k, int m, int[] score) {
+    int answer = 0;
+        
+    //이익이 발생하는 경우
+    if(score.length >= m){//배열크기 >= m
+        //배열 최대값부터 나열
+        for(int index=0; index<(score.length-1); index++){
+            for(int nextIndex=index+1; nextIndex<(score.length); nextIndex++){
+                if(score[index] < score[nextIndex]){
+                    k=score[index];
+                    score[index]=score[nextIndex];
+                    score[nextIndex]=k;
+                }
+            } 
+        }  
+        for(int i=1; i*m-1<score.length; i++){            
+            answer += m * score[i*m-1];
+        }
+    } 
+    //이익이 발생하지 않는 경우 => 초기값 0
+    return answer;
+    }
+}
