@@ -42,31 +42,33 @@ public class CodingTest01 {
 
 		// 3. 매핑 규칙 입력
 		Map<Character, Character> englishMap = new HashMap<>();		//기존 알파벳, 치환할 알파벳 map 형태로 구현
-		for (int i = 0; i < n; i++) {								//입력한 n 값만큼 매핑 규칙 입력하기
+		for (int i = 0; i < n; i++) {					//입력한 n 값만큼 매핑 규칙 입력하기
 			String[] alpavets = br.readLine().trim().split(" ");	//공백 기준으로 문자열 나누기(ex. 'a b' => [0]=a [1]=b)
-			char en = alpavets[0].charAt(0);						//기존 알파벳 왼쪽 문자열 		=>	[0]의 값 char타입으로 추출
-			char newEn = alpavets[1].charAt(0);						//치환 알파벳 오른쪽 문자열 	=>	[1]의 값 char타입으로 추출
-			englishMap.put(en, newEn);								//추출한 알파벳 한쌍의 매핑 데이터로 넣기 (기존 데이터, 치환 데이터)
+			char en = alpavets[0].charAt(0);			//기존 알파벳 왼쪽 문자열 	=>	[0]의 값 char타입으로 추출
+			char newEn = alpavets[1].charAt(0);			//치환 알파벳 오른쪽 문자열 	=>	[1]의 값 char타입으로 추출
+			englishMap.put(en, newEn);				//추출한 알파벳 한쌍의 매핑 데이터로 넣기 (기존 데이터, 치환 데이터)
 		}
 
 		// 4. 치환 작업 수행
-		StringBuilder result = new StringBuilder();					//가변 객체 활용해 출력할 문자열 형성
-		for (char c : inputEn) { // 문자 배열 순회
+		StringBuilder result = new StringBuilder();			//가변 객체 활용해 출력할 문자열 형성
+		for (char c : inputEn) { 					// 문자 배열 순회
+			
 			// 1) 암호문 배열 내 특정 인덱스의 값이 공백이라면, 공백 그대로 문자열 붙이기
 			if (c == ' ') {
 				result.append(' ');
 				continue;
 			}
+			
 			// 2) 암호문 배열 내 특정 인덱스 값이 문자열이라면, 이하 진행
 			char original = c; 	// 현재 확인한 문자열 original 변수로 선언
 			int depth = 0; 		// 무한 루프 탐지용
 			
-			while (englishMap.containsKey(c)) {	// 키값이 c인 map이 있다면 if문 진행
-				if (depth++ > inputEn.length) { // 무한루프라서 치환할 수 있는 경우의 수를 초과하면 ?로 처리
+			while (englishMap.containsKey(c)) {			// 키값이 c인 map이 있다면 if문 진행
+				if (depth++ > inputEn.length) { 		// 무한루프라서 치환할 수 있는 경우의 수를 초과하면 ?로 처리
 					c = '?';
 					break;
 				}
-				c = englishMap.get(c);			// 키값 c에 해당하는 그 데이터의 value값을 key값으로 전환하기(해독 종료될 때까지 확인하기 위함)
+				c = englishMap.get(c);				// 키값 c에 해당하는 그 데이터의 value값을 key값으로 전환하기(해독 종료될 때까지 확인하기 위함)
 			}
 
 			// 무한 루프가 아니면 치환된 문자를 결과에 추가
