@@ -1,0 +1,53 @@
+package test1213;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+public class CodingTest {
+
+	public static void main(String[] args) throws IOException {
+	
+		System.out.println("본 프로그램은 학년, 반, 번호가 입력되면 학번을 생성합니다.");
+		System.out.println("스페이스바 기준으로 학년, 반 번호 입력해주세요.");
+		
+		//사용자의 인풋값 읽는 BufferdReader
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		
+		//공백 기준 읽기
+		String[] gradeClassNumber = br.readLine().split(" "); 
+		
+		//String(문자) Integer(정수)로 타입 변환
+		int number = Integer.parseInt(gradeClassNumber[2]);
+		
+		//고유번호가 10 보다 작다면 [2]에서 '0 + 기존 인덱스값' 붙이기
+		if(number<10) {
+			gradeClassNumber[2] = '0' + gradeClassNumber[2];
+		}
+		
+		//문자열을 이어붙일 StringBuilder
+		StringBuilder result = new StringBuilder();
+		
+		//학년, 반, 번호가 담긴 인덱스 각각 0번 인덱스부터 조회하여 문자형태로 만들기
+		for(String numbers : gradeClassNumber) {
+			result.append(numbers);
+		}
+		//결과값 출력
+		System.out.println(result);
+	}
+}
+
+
+/*
+
+본 프로그램은 학년, 반, 번호가 입력되면 학번을 생성합니다.
+스페이스바 기준으로 학년, 반 번호 입력해주세요.
+3 5 15
+3515
+
+본 프로그램은 학년, 반, 번호가 입력되면 학번을 생성합니다.
+스페이스바 기준으로 학년, 반 번호 입력해주세요.
+2 4 3
+2403
+
+*/
