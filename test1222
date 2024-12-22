@@ -1,0 +1,55 @@
+package com.bungeobbang.app.biz.common;
+
+import java.io.IOException;
+
+import jakarta.servlet.Filter;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.FilterConfig;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
+import jakarta.servlet.annotation.WebFilter;
+import jakarta.servlet.http.HttpServletRequest;
+import lombok.extern.slf4j.Slf4j;
+
+@WebFilter("*.do")	// "*.do"로 끝나는 요청 시, 실행
+@Slf4j				// Lombok을 이용해 Logger 객체 생성.
+public class LogFilter implements Filter {
+    
+	//필터 init()함수로 초기화
+	@Override
+	public void init(FilterConfig filterConfig) throws ServletException {
+		// 부모 클래스의 init 메서드를 호출하여 기본 초기화 동작 수행.
+        Filter.super.init(filterConfig);
+	}
+	//필터링 작업 메서드
+	/*
+	request  클라이언트로부터 온 요청 객체
+	response 클라이언트에 대한 응답 객체
+	chain    다음 필터 또는 최종 서블릿을 호출하기 위한 객체
+	*/
+	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
+		System.out.println("filter doFilter() reading");
+		HttpServletRequest req = (HttpServletRequest) request; //요청값을 req변수로 선언
+		String uri = req.getRequestURI(); //req에서 요청 uri만 추출한 값 uri 변수 선언(ex. /project/someCommand.do)
+		String cp = req.getContextPath(); //요청uri에서 경로부분만 자르기(ex. /project)
+		String command = uri.substring(cp.length());//uri에서 경로 cp만 버리고 추출(ex. someCommand.do)
+		
+		// 요청이 시작되었음을 로그로 기록.
+        // \u001B[35m: ANSI Escape Code로 텍스트 색상을 보라색으로 변경.
+        // \u001B[0m: 텍스트 색상 초기화.
+        // ex. 2024-12-22 19:35:56.806 [http-nio-8088-exec-4] INFO c.b.app.biz.common.LogFilter - Filter command start : [/loadListStoreMap.do]
+        log.info("\u001B[35mFilter command start : [{}]\u001B[0m", command);
+		
+		chain.doFilter(request, response); //해당 코드를 기준으로 전처리, 후처리
+		
+		// 요청이 완료되었음을 로그로 기록.
+        log.info("\u001B[35mFilter command end : [{}]\u001B[0m", command);
+	}
+	//필터 제거 시 실행
+	@Override
+	public void destroy() {
+		System.out.println("filter destroy() reading");
+		Filter.super.destroy();
+	}
+}
