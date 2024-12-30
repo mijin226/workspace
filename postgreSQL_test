@@ -1,0 +1,28 @@
+1. psql에 접속한다.
+
+2. 데이터 베이스 접속을 위해 DB 목록 확인한다.
+\l
+\list
+//mysql - show databases;
+
+
+3. 변경 여부 사전 확인을 위해 현재 DB와 사용자 설정값을 확인한다.
+\c               //현재 접속된 DB와 사용자 값 확인
+\c DB명          //DB명 설정(전환)                 //mysql - use databaseName
+\c DB명 사용자명  //DB명 사용자명 모두 설정(전환)
+
+
++) 이때 등록한 사용자명 목록 확인하고 싶다면, \du 사용
+\du
+
+5. DB 전환 마쳤다면, 테이블 생성 및 목록 조회 가능
+ - 테이블 생성
+    CREATE TABLE employees (
+      id SERIAL PRIMARY KEY,
+     name VARCHAR(100) 
+    );
+
+ 
+ - 테이블 전체 목록 조회
+\dt
+//show tables;
