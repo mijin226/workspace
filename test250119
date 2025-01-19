@@ -1,0 +1,70 @@
+/*
+  문제 : n이 주어졌을 때, 1부터 n까지 합을 구하는 프로그램을 작성하시오.
+  조건1. 첫째 줄에 N이 주어진다.
+  조건2. 1~N까지 합을 출력한다.
+*/
+
+package test;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+
+public class Practice {
+
+	public static void main(String[] args) throws IOException {
+		// 상단 변수 선언 및 초기화
+		int result = 0;
+		int number = 0;
+
+		System.out.println("1부터 입력하는 수 N까지의 총합을 구하는 프로그램입니다.");
+
+		// 1. 사용자 입력값 받기 + 유효성 확인
+		try {
+			while (true) {
+				System.out.print("사용자 입력값 : ");
+
+				BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+				String inputNumber = br.readLine().trim();
+				number = Integer.parseInt(inputNumber);
+				if (number >= 1) {/* 데이터타입이 int이고 1이상의 수라면 */
+					break;
+				} /* 0이하의 수라면 */
+				System.out.println("1이상의 정수를 입력해주세요.");
+			}
+		} catch (NumberFormatException e) {/* 데이터타입이 int가 아니라면, */
+			System.out.println("정수타입으로 입력해주세요.");
+		} catch (Exception e) {
+			System.out.println("값을 잘못입력하였습니다. 다시 입력해주세요.");
+		}
+
+		// 2. 1~N까지 총 합계 구하기
+		System.out.println("debug : [i]  [result]");
+		for (int i = 1; i <= number; i++) {
+			result += i;
+			System.out.println("debug : ["+i+"] | ["+result+"]");
+		}
+		System.out.println("1부터 사용자께서 입력하신 '" + number + "'까지의 총 합계는 " + result + "입니다.");
+	}
+}
+
+
+/*  console  */
+
+/*
+1부터 입력하는 수 N까지의 총합을 구하는 프로그램입니다.
+사용자 입력값 : 11
+debug : [i]  [result]
+debug : [1] | [1]
+debug : [2] | [3]
+debug : [3] | [6]
+debug : [4] | [10]
+debug : [5] | [15]
+debug : [6] | [21]
+debug : [7] | [28]
+debug : [8] | [36]
+debug : [9] | [45]
+debug : [10] | [55]
+debug : [11] | [66]
+1부터 사용자께서 입력하신 '11'까지의 총 합계는 66입니다.    
+*/
